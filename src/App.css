@@ -1,0 +1,421 @@
+.app {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+/* --- En-tête ---------------------------------------------------------- */
+
+.app-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 0.5px;
+}
+
+.app-header .accent {
+  color: var(--accent);
+}
+
+.subtitle {
+  margin: 0.25rem 0 0;
+  color: var(--text-dim);
+}
+
+/* --- Onglets ----------------------------------------------------------- */
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-panel);
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tab:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.tab.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* --- Panneaux ---------------------------------------------------------- */
+
+.tab-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.tab-intro {
+  margin: 0 0 1.25rem;
+  color: var(--text-dim);
+}
+
+.parents-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.parents-row .field {
+  flex: 1;
+  min-width: 220px;
+}
+
+.parents-row > .cross {
+  padding-bottom: 0.6rem;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cross {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.arrow {
+  color: var(--text-dim);
+}
+
+/* --- Sélecteur de pal --------------------------------------------------- */
+
+.pal-select {
+  position: relative;
+}
+
+.pal-select-input,
+.filter-input {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-input);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.pal-select-input:focus,
+.filter-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.pal-select-clear {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+}
+
+.pal-select-clear:hover {
+  color: var(--danger);
+}
+
+.pal-select-dropdown {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 280px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.pal-select-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pal-select-option.highlighted {
+  background: var(--accent-dim);
+}
+
+.pal-select-empty {
+  padding: 0.6rem;
+  color: var(--text-dim);
+}
+
+.pal-dex {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  min-width: 2.6rem;
+}
+
+/* --- Chips (multi-sélection) -------------------------------------------- */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.4rem 0.25rem 0.7rem;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  font-size: 0.88rem;
+}
+
+.chip button {
+  border: none;
+  background: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.1rem 0.3rem;
+}
+
+.chip button:hover {
+  color: var(--danger);
+}
+
+.chip-bad {
+  background: rgba(242, 113, 111, 0.12);
+  border-color: var(--danger);
+}
+
+.passive-rank {
+  min-width: 1.2rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.rank-good {
+  color: var(--accent);
+}
+
+.rank-bad {
+  color: var(--danger);
+}
+
+/* --- Résultats ----------------------------------------------------------- */
+
+.results {
+  margin-top: 1.5rem;
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.results-header h3 {
+  margin: 0;
+}
+
+.results-header .filter-input {
+  max-width: 240px;
+}
+
+.result-card {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.child-name {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 1.35rem;
+}
+
+.child-meta {
+  margin: 0.4rem 0 0;
+  color: var(--text-dim);
+  font-size: 0.92rem;
+}
+
+.condition {
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.prob-main {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.notice {
+  padding: 0.75rem 1rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-dim);
+  font-size: 0.92rem;
+}
+
+.notice.success {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* --- Listes de combos / étapes ------------------------------------------- */
+
+.combo-list,
+.steps-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 420px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.steps-list {
+  counter-reset: step;
+}
+
+.combo-row,
+.step-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.combo-row:last-child,
+.step-row:last-child {
+  border-bottom: none;
+}
+
+.step-row::before {
+  counter-increment: step;
+  content: counter(step);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* --- Passifs souhaités ----------------------------------------------------- */
+
+.desired-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.4rem;
+}
+
+.desired-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.6rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.92rem;
+}
+
+.desired-item:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.desired-item input {
+  accent-color: var(--accent);
+}
+
+/* --- Pied de page ------------------------------------------------------------ */
+
+.app-footer {
+  margin-top: 2rem;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.app-footer a {
+  color: var(--accent);
+}
+
+@media (max-width: 560px) {
+  .parents-row > .cross {
+    display: none;
+  }
+
+  .tab-panel {
+    padding: 1rem;
+  }
+}
