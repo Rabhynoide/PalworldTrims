@@ -81,7 +81,7 @@ Via Portainer : Stacks → Add stack → **Repository** (URL du dépôt Git,
 compose path `docker-compose.yml`), puis renseigner les variables
 d'environnement (`SFTP_HOST`, `SFTP_PORT`, `SFTP_USER`, `SFTP_PASSWORD`,
 `REMOTE_SAVE_PATH`, `SYNC_INTERVAL_MINUTES`) dans l'interface — jamais dans
-le dépôt. Le site sort sur le port 8080.
+le dépôt. Le site sort sur le port `WEB_PORT` (8080 par défaut).
 
 Après une mise à jour du jeu (nouveaux exports + `npm run gen-data`),
 reconstruire la stack (Portainer : « Pull and redeploy » / re-build).

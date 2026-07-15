@@ -10,7 +10,8 @@ services:
       dockerfile: Dockerfile
     container_name: palworld-breeding-web
     ports:
-      - "8080:80"
+      # Port d'écoute côté hôte, configurable via WEB_PORT (défaut 8080).
+      - "${WEB_PORT:-8080}:80"
     volumes:
       - owned-data:/owned-data:ro
     restart: unless-stopped
