@@ -1,0 +1,9 @@
+node_modules
+dist
+.cache
+.git
+ExportedData
+sync-config.json
+sync-config.example.json
+public/owned.json
+*.md

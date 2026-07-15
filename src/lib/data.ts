@@ -34,6 +34,30 @@ export function genderedResultsOf(i: number, j: number): GenderedCombo[] {
   );
 }
 
+export const passiveById = new Map(passives.map((p) => [p.id, p]));
+
+/**
+ * Classe CSS de couleur selon le rang du passif :
+ * positifs du jaune (1) à l'or (4) puis violet (5, passifs de l'Arbre Monde),
+ * négatifs en rouge de plus en plus soutenu.
+ */
+export function passiveRankClass(rank: number): string {
+  if (rank < 0) return `prank-n${Math.min(-rank, 3)}`;
+  return `prank-${Math.max(1, Math.min(rank, 5))}`;
+}
+
+/** Flèches de rang façon jeu : ▲▲ pour +2, ▼ pour -1… */
+export function passiveRankArrows(rank: number): string {
+  if (rank < 0) return "▼".repeat(Math.min(-rank, 3));
+  return "▲".repeat(Math.max(1, Math.min(rank, 5)));
+}
+
+/** Libellé du numéro Paldex (les pals de collab n'en ont pas). */
+export function dexLabel(index: number): string {
+  const p = pals[index];
+  return p.dex > 0 ? `#${p.dex}${p.variant ? "B" : ""}` : "✦";
+}
+
 /** Normalise une chaîne pour la recherche (minuscules, sans accents). */
 export function normalize(s: string): string {
   return s

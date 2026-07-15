@@ -1,0 +1,11 @@
+services:
+  palworld-breeding:
+    build: .
+    container_name: palworld-breeding
+    ports:
+      - "8080:80"
+    volumes:
+      # owned.json vit hors de l'image : `npm run sync-owned` le rafraîchit
+      # sans reconstruire. Crée le fichier avant le premier démarrage.
+      - ./public/owned.json:/usr/share/nginx/html/owned.json:ro
+    restart: unless-stopped

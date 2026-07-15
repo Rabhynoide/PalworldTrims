@@ -1,0 +1,161 @@
+[
+  {
+    "Type": "DataTable",
+    "Name": "DT_CharacterTeamMissionText",
+    "Flags": "RF_Public | RF_Standalone | RF_Transactional | RF_WasLoaded | RF_LoadCompleted",
+    "Class": "UScriptClass'DataTable'",
+    "Package": "Pal/Content/L10N/fr/Pal/DataTable/Text/DT_CharacterTeamMissionText",
+    "Properties": {
+      "RowStruct": {
+        "ObjectName": "ScriptStruct'PalLocalizedTextData'",
+        "ObjectPath": "/Script/Pal"
+      }
+    },
+    "Rows": {
+      "DUNGEON_GRASS": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_GRASS_TextData",
+          "SourceString": "Caverne des Plaines",
+          "LocalizedString": "Caverne des Plaines"
+        }
+      },
+      "DUNGEON_FOREST": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_FOREST_TextData",
+          "SourceString": "Zone Reculée de la Forêt",
+          "LocalizedString": "Zone Reculée de la Forêt"
+        }
+      },
+      "DUNGEON_VOLCANO": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_VOLCANO_TextData",
+          "SourceString": "Grotte Brûlante du Volcan",
+          "LocalizedString": "Grotte Brûlante du Volcan"
+        }
+      },
+      "DUNGEON_DESERT": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_DESERT_TextData",
+          "SourceString": "Ruines Cachées du Désert",
+          "LocalizedString": "Ruines Cachées du Désert"
+        }
+      },
+      "DUNGEON_SNOW": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_SNOW_TextData",
+          "SourceString": "Grotte Gelée de la Montagne",
+          "LocalizedString": "Grotte Gelée de la Montagne"
+        }
+      },
+      "DUNGEON_SAKURAJIMA": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_SAKURAJIMA_TextData",
+          "SourceString": "Grotte Mystique de l'Île aux Cerisiers",
+          "LocalizedString": "Grotte Mystique de l'Île aux Cerisiers"
+        }
+      },
+      "DUNGEON_DARKISLAND": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_DARKISLAND_TextData",
+          "SourceString": "Crypte du Paradis Déchu",
+          "LocalizedString": "Crypte du Paradis Déchu"
+        }
+      },
+      "DUNGEON_GRASSHARD": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_GRASSHARD_TextData",
+          "SourceString": "Hangar de Contrebande du Syndicat de Rayne",
+          "LocalizedString": "Hangar de Contrebande du Syndicat de Rayne"
+        }
+      },
+      "DUNGEON_FORESTHARD": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_FORESTHARD_TextData",
+          "SourceString": "Marché Noir de la Ligue pour la Protection des Pals",
+          "LocalizedString": "Marché Noir de la Ligue pour la Protection des Pals"
+        }
+      },
+      "DUNGEON_VOLCANOHARD": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_VOLCANOHARD_TextData",
+          "SourceString": "Marché Noir de la Confrérie des Flammes Éternelles",
+          "LocalizedString": "Marché Noir de la Confrérie des Flammes Éternelles"
+        }
+      },
+      "DUNGEON_DESERTHARD": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_DESERTHARD_TextData",
+          "SourceString": "Usine Illégale de la Milice Populaire",
+          "LocalizedString": "Usine Illégale de la Milice Populaire"
+        }
+      },
+      "DUNGEON_SNOWHARD": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_SNOWHARD_TextData",
+          "SourceString": "Laboratoire de l’Unité de Recherche Génétique",
+          "LocalizedString": "Laboratoire de l’Unité de Recherche Génétique"
+        }
+      },
+      "DUNGEON_SAKURAJIMAHARD": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_SAKURAJIMAHARD_TextData",
+          "SourceString": "Base Secrète du Clan des Fleurs Lunaires",
+          "LocalizedString": "Base Secrète du Clan des Fleurs Lunaires"
+        }
+      },
+      "DUNGEON_DARKISLANDHARD": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_DARKISLANDHARD_TextData",
+          "SourceString": "Vestiges du Paradis Déchu",
+          "LocalizedString": "Vestiges du Paradis Déchu"
+        }
+      },
+      "DUNGEON_SKYISLAND": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_SKYISLAND_TextData",
+          "SourceString": "Îles Astrales",
+          "LocalizedString": "Îles Astrales"
+        }
+      },
+      "DUNGEON_WORLDTREE": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_WORLDTREE_TextData",
+          "SourceString": "Ruines de la Cité Souterraine de l’Arbre-Monde",
+          "LocalizedString": "Ruines de la Cité Souterraine de l’Arbre-Monde"
+        }
+      },
+      "DUNGEON_SKYISLANDHARD": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_SKYISLANDHARD_TextData",
+          "SourceString": "Antre de la Carcasse du Dragon des Terres Astrales",
+          "LocalizedString": "Antre de la Carcasse du Dragon des Terres Astrales"
+        }
+      },
+      "DUNGEON_WORLDTREEHARD": {
+        "TextData": {
+          "Namespace": "DT_CharacterTeamMissionText",
+          "Key": "DUNGEON_WORLDTREEHARD_TextData",
+          "SourceString": "Domaine Scellé de l’Arbre-Monde",
+          "LocalizedString": "Domaine Scellé de l’Arbre-Monde"
+        }
+      }
+    }
+  }
+]

@@ -3,6 +3,7 @@ import ChildTab from "./components/ChildTab";
 import ParentsTab from "./components/ParentsTab";
 import PathTab from "./components/PathTab";
 import PassivesTab from "./components/PassivesTab";
+import OwnedTab from "./components/OwnedTab";
 import "./App.css";
 
 const TABS = [
@@ -10,6 +11,7 @@ const TABS = [
   { id: "parents", label: "Parents", icon: "🔍" },
   { id: "path", label: "Chemin", icon: "🗺️" },
   { id: "passives", label: "Passifs", icon: "✨" },
+  { id: "owned", label: "Mes pals", icon: "📋" },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
@@ -46,18 +48,12 @@ export default function App() {
         {tab === "parents" && <ParentsTab />}
         {tab === "path" && <PathTab />}
         {tab === "passives" && <PassivesTab />}
+        {tab === "owned" && <OwnedTab />}
       </main>
 
       <footer className="app-footer">
-        Données de jeu issues de{" "}
-        <a
-          href="https://github.com/tylercamp/palcalc"
-          target="_blank"
-          rel="noreferrer"
-        >
-          PalCalc
-        </a>{" "}
-        (licence MIT). Non affilié à Pocketpair.
+        Données extraites des fichiers du jeu (Palworld 1.0). Non affilié à
+        Pocketpair.
       </footer>
     </div>
   );

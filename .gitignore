@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Synchronisation serveur (accès + données personnelles)
+sync-config.json
+.cache/
+public/owned.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

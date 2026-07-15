@@ -1,5 +1,10 @@
 import { useRef, useState } from "react";
-import { passives, normalize } from "../lib/data";
+import {
+  passives,
+  normalize,
+  passiveRankClass,
+  passiveRankArrows,
+} from "../lib/data";
 
 interface Props {
   values: number[]; // index dans la liste des passifs
@@ -35,11 +40,13 @@ export default function PassivePicker({ values, onChange, max = 4 }: Props) {
           {values.map((v) => (
             <span
               key={passives[v].id}
-              className={
-                "chip " + (passives[v].rank >= 0 ? "chip-good" : "chip-bad")
-              }
+              className={"chip " + passiveRankClass(passives[v].rank)}
+              title={`Rang ${passives[v].rank > 0 ? "+" : ""}${passives[v].rank}`}
             >
               {passives[v].fr}
+              <span className="rank-arrows">
+                {passiveRankArrows(passives[v].rank)}
+              </span>
               <button
                 type="button"
                 aria-label={`Retirer ${passives[v].fr}`}
@@ -94,13 +101,20 @@ export default function PassivePicker({ values, onChange, max = 4 }: Props) {
               >
                 <span
                   className={
-                    "passive-rank " +
-                    (passives[idx].rank >= 0 ? "rank-good" : "rank-bad")
+                    "passive-rank " + passiveRankClass(passives[idx].rank)
                   }
                 >
-                  {passives[idx].rank >= 0 ? "+" : "−"}
+                  {passiveRankArrows(passives[idx].rank)}
                 </span>
                 {passives[idx].fr}
+                {passives[idx].surgery && (
+                  <span
+                    className="surgery-mark"
+                    title="Ajoutable via la table d'opération"
+                  >
+                    🛠
+                  </span>
+                )}
               </li>
             ))}
           </ul>

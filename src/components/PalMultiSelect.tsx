@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { pals, searchPals } from "../lib/data";
+import { pals, searchPals, dexLabel } from "../lib/data";
 
 interface Props {
   values: number[];
@@ -95,10 +95,7 @@ export default function PalMultiSelect({ values, onChange, placeholder }: Props)
                 }}
                 onMouseEnter={() => setHighlight(k)}
               >
-                <span className="pal-dex">
-                  #{pals[idx].dex}
-                  {pals[idx].variant ? "B" : ""}
-                </span>
+                <span className="pal-dex">{dexLabel(idx)}</span>
                 {pals[idx].fr}
               </li>
             ))}

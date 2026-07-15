@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import PassivePicker from "./PassivePicker";
-import { passives } from "../lib/data";
+import { passives, passiveRankClass, passiveRankArrows } from "../lib/data";
 import { probAtLeastDesired, expectedEggs } from "../lib/passives";
 
 export default function PassivesTab() {
@@ -47,13 +47,20 @@ export default function PassivesTab() {
           <label>Passifs souhaités chez l'enfant</label>
           <div className="desired-grid">
             {pool.map((idx) => (
-              <label key={passives[idx].id} className="desired-item">
+              <label
+                key={passives[idx].id}
+                className={`desired-item ${passiveRankClass(passives[idx].rank)}`}
+                title={`Rang ${passives[idx].rank > 0 ? "+" : ""}${passives[idx].rank}`}
+              >
                 <input
                   type="checkbox"
                   checked={validDesired.includes(idx)}
                   onChange={() => toggleDesired(idx)}
                 />
                 {passives[idx].fr}
+                <span className="rank-arrows">
+                  {passiveRankArrows(passives[idx].rank)}
+                </span>
               </label>
             ))}
           </div>

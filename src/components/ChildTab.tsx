@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PalSelect from "./PalSelect";
-import { pals } from "../lib/data";
+import { pals, dexLabel } from "../lib/data";
 import { resultsFor } from "../lib/breeding";
 
 const genderSymbol = { MALE: "♂", FEMALE: "♀" } as const;
@@ -45,10 +45,7 @@ export default function ChildTab() {
                   </p>
                 )}
                 <div className="child-name">
-                  <span className="pal-dex">
-                    #{child.dex}
-                    {child.variant ? "B" : ""}
-                  </span>
+                  <span className="pal-dex">{dexLabel(o.child)}</span>
                   <strong>{child.fr}</strong>
                 </div>
                 <p className="child-meta">

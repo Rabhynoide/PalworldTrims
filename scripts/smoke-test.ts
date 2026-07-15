@@ -59,6 +59,121 @@ if (pAnubis) {
 // findPath : Jetragon inaccessible sans le posséder
 check("Jetragon inaccessible", findPath(owned, idx("Jetragon")) === null);
 
+// Planificateur avec passifs
+import { findPassivePlan } from "../src/lib/passivePathfinder";
+
+const instances = [
+  { pal: idx("Lamball"), passives: ["Legend", "PAL_rude"] },
+  { pal: idx("Cattiva"), passives: [] },
+  { pal: idx("Chikipi"), passives: ["Nocturnal"] },
+];
+
+// Cible avec passif porté par Lamball : le plan doit exister et propager Legend
+const planLegend = findPassivePlan(instances, idx("Daedream"), ["Legend"]);
+check(
+  "Plan Daedream [Legend] trouvé",
+  planLegend !== null && planLegend.steps.length > 0,
+  planLegend ? `${planLegend.steps.length} étapes, ~${Math.ceil(planLegend.totalEggs)} œufs` : "null"
+);
+if (planLegend) {
+  const last = planLegend.steps[planLegend.steps.length - 1];
+  check(
+    "Dernière étape : Daedream avec Legend",
+    last.child === idx("Daedream") && last.childMask === 1
+  );
+  check(
+    "Coût en œufs > nombre d'étapes (probabilités)",
+    planLegend.totalEggs > planLegend.steps.length
+  );
+}
+
+// Passif porté par personne → plan impossible
+check(
+  "Passif sans porteur → null",
+  findPassivePlan(instances, idx("Daedream"), ["Musclehead"]) === null
+);
+
+// Sans passif souhaité : cohérent avec findPath
+const planPlain = findPassivePlan(instances, idx("Anubis"), []);
+check(
+  "Plan sans passifs cohérent avec findPath",
+  planPlain !== null && pAnubis !== null && planPlain.steps.length === pAnubis.steps.length
+);
+
+// Genres : deux femelles seulement → aucun couple possible → null
+const twoFemales = [
+  { pal: idx("Katress"), passives: [], gender: "FEMALE" as const },
+  { pal: idx("Wixen"), passives: [], gender: "FEMALE" as const },
+];
+check(
+  "Deux ♀ seulement → plan impossible",
+  findPassivePlan(twoFemales, idx("Katress Ignis"), []) === null
+);
+
+// Genres corrects → combo genré en 1 étape
+const goodPair = [
+  { pal: idx("Katress"), passives: [], gender: "FEMALE" as const },
+  { pal: idx("Wixen"), passives: [], gender: "MALE" as const },
+];
+const planIgnis = findPassivePlan(goodPair, idx("Katress Ignis"), []);
+check(
+  "Katress ♀ × Wixen ♂ → Katress Ignis en 1 étape",
+  planIgnis !== null &&
+    planIgnis.steps.length === 1 &&
+    planIgnis.steps[0].condition !== undefined,
+  planIgnis ? `${planIgnis.steps.length} étape(s)` : "null"
+);
+
+// Genre manquant élevable : ♂ A + ♀ B, cible exige ♂ B → le solveur doit
+// d'abord élever un B ♂ (via A♂ × B♀) puis faire le combo.
+const needMale = [
+  { pal: idx("Katress"), passives: [], gender: "MALE" as const },
+  { pal: idx("Wixen"), passives: [], gender: "FEMALE" as const },
+];
+const planNoct = findPassivePlan(needMale, idx("Katress Ignis"), []);
+check(
+  "Genre manquant élevé par le solveur (étapes > 1, coût genre inclus)",
+  planNoct !== null &&
+    planNoct.steps.length > 1 &&
+    planNoct.steps.some((s) => s.childGender !== null && s.genderFactor > 1),
+  planNoct
+    ? planNoct.steps
+        .map(
+          (s) =>
+            `${pals[s.p1].en} x ${pals[s.p2].en} -> ${pals[s.child].en}` +
+            `${s.childGender ? "(" + s.childGender + ")" : ""}`
+        )
+        .join(" ; ") + ` ~${Math.ceil(planNoct.totalEggs)} œufs`
+    : "null"
+);
+
+// Table d'opération : passif sans porteur mais opérable → plan + chirurgie
+const noCarrier = [
+  { pal: idx("Lamball"), passives: [], gender: "MALE" as const },
+  { pal: idx("Cattiva"), passives: [], gender: "FEMALE" as const },
+];
+check(
+  "Sans chirurgie : passif sans porteur → null",
+  findPassivePlan(noCarrier, idx("Daedream"), ["Noukin"]) === null
+);
+const planSurgery = findPassivePlan(
+  noCarrier,
+  idx("Daedream"),
+  ["Noukin"],
+  undefined,
+  ["Noukin"]
+);
+check(
+  "Avec chirurgie : plan trouvé + Noukin en chirurgie",
+  planSurgery !== null &&
+    planSurgery.steps.length > 0 &&
+    planSurgery.surgeries.length === 1 &&
+    planSurgery.surgeries[0] === "Noukin",
+  planSurgery
+    ? `${planSurgery.steps.length} étape(s), chirurgies: ${planSurgery.surgeries.join(",")}`
+    : "null"
+);
+
 // Passifs : 1 souhaité parmi 1 → 40%+30%+20%+10% = 100 %
 check("1 passif sur 1 → 100 %", Math.abs(probAtLeastDesired(1, 1) - 1) < 1e-9);
 // 4 souhaités parmi 8 → 10 % * C(4,0)/C(8,4) = 0.1/70
