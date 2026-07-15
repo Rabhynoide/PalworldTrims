@@ -60,22 +60,31 @@ Le script télécharge la sauvegarde, en extrait les pals de chaque joueur
 que l'app charge automatiquement : un bandeau apparaît dans l'onglet
 « Chemin » pour importer les pals d'un joueur en un clic.
 
-## Déploiement Docker
+## Déploiement Docker / Portainer
 
-L'app est un site statique servi par nginx (build multi-étapes) :
+La stack (`docker-compose.yml`) contient deux services :
+
+- **web** : le site statique (build Vite multi-étapes, servi par nginx)
+- **sync** : synchronise les pals possédés depuis le serveur Palworld en
+  SFTP à intervalle régulier (`SYNC_INTERVAL_MINUTES`, 60 min par défaut)
+  et écrit `owned.json` dans un volume partagé servi par nginx
+
+En ligne de commande :
 
 ```bash
-docker compose up -d --build     # build + démarrage sur http://localhost:8080
+SFTP_HOST=... SFTP_PORT=... SFTP_USER=... SFTP_PASSWORD=... \
+REMOTE_SAVE_PATH=/Pal/Saved/SaveGames/0/<id>/Level.sav \
+docker compose up -d --build
 ```
 
-`public/owned.json` est monté en volume (voir `docker-compose.yml`) : après
-un `npm run sync-owned` sur l'hôte, il suffit de recharger la page — pas
-besoin de reconstruire l'image. Crée d'abord le fichier (une synchro) avant
-le premier `docker compose up`, sinon Docker créera un dossier à sa place.
+Via Portainer : Stacks → Add stack → **Repository** (URL du dépôt Git,
+compose path `docker-compose.yml`), puis renseigner les variables
+d'environnement (`SFTP_HOST`, `SFTP_PORT`, `SFTP_USER`, `SFTP_PASSWORD`,
+`REMOTE_SAVE_PATH`, `SYNC_INTERVAL_MINUTES`) dans l'interface — jamais dans
+le dépôt. Le site sort sur le port 8080.
 
-Après une mise à jour du jeu (nouveaux exports + `npm run gen-data`) :
-`docker compose up -d --build` pour reconstruire l'image avec les nouvelles
-données.
+Après une mise à jour du jeu (nouveaux exports + `npm run gen-data`),
+reconstruire la stack (Portainer : « Pull and redeploy » / re-build).
 
 ## Données : extraites directement du jeu
 

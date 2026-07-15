@@ -8,7 +8,9 @@
 // Usage :
 //   npm run sync-owned
 //
-// Config (sync-config.json, non versionné) — voir sync-config.example.json.
+// Config : sync-config.json (voir sync-config.example.json), ou variables
+// d'environnement (mode conteneur) : SFTP_HOST, SFTP_PORT, SFTP_USER,
+// SFTP_PASSWORD (ou SFTP_KEY_PATH), REMOTE_SAVE_PATH, OWNED_OUTPUT_PATH.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -21,16 +23,28 @@ const configPath = path.join(root, "sync-config.json");
 const cacheDir = path.join(root, ".cache");
 const savPath = path.join(cacheDir, "Level.sav");
 const rawJsonPath = path.join(cacheDir, "owned-raw.json");
-const outPath = path.join(root, "public", "owned.json");
+const outPath =
+  process.env.OWNED_OUTPUT_PATH ?? path.join(root, "public", "owned.json");
 
-if (!fs.existsSync(configPath)) {
+let config;
+if (process.env.SFTP_HOST) {
+  config = {
+    host: process.env.SFTP_HOST,
+    port: Number(process.env.SFTP_PORT ?? 22),
+    username: process.env.SFTP_USER,
+    password: process.env.SFTP_PASSWORD || undefined,
+    privateKeyPath: process.env.SFTP_KEY_PATH || null,
+    remoteSavePath: process.env.REMOTE_SAVE_PATH,
+  };
+} else if (fs.existsSync(configPath)) {
+  config = JSON.parse(fs.readFileSync(configPath, "utf8"));
+} else {
   console.error(
-    "sync-config.json introuvable. Copie sync-config.example.json vers " +
-      "sync-config.json et renseigne les accès SFTP du serveur."
+    "Aucune configuration : renseigne sync-config.json (copie de " +
+      "sync-config.example.json) ou les variables d'environnement SFTP_*."
   );
   process.exit(1);
 }
-const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 
 fs.mkdirSync(cacheDir, { recursive: true });
 

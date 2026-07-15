@@ -1,11 +1,35 @@
+# Stack complète : site web + synchronisation périodique des pals possédés.
+#
+# Déploiement Portainer : Stacks -> Add stack -> Repository, en renseignant
+# les variables d'environnement SFTP_* dans l'interface (jamais dans le repo).
+
 services:
-  palworld-breeding:
-    build: .
-    container_name: palworld-breeding
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: palworld-breeding-web
     ports:
       - "8080:80"
     volumes:
-      # owned.json vit hors de l'image : `npm run sync-owned` le rafraîchit
-      # sans reconstruire. Crée le fichier avant le premier démarrage.
-      - ./public/owned.json:/usr/share/nginx/html/owned.json:ro
+      - owned-data:/owned-data:ro
     restart: unless-stopped
+
+  sync:
+    build:
+      context: .
+      dockerfile: Dockerfile.sync
+    container_name: palworld-breeding-sync
+    environment:
+      SFTP_HOST: ${SFTP_HOST}
+      SFTP_PORT: ${SFTP_PORT:-22}
+      SFTP_USER: ${SFTP_USER}
+      SFTP_PASSWORD: ${SFTP_PASSWORD}
+      REMOTE_SAVE_PATH: ${REMOTE_SAVE_PATH}
+      SYNC_INTERVAL_MINUTES: ${SYNC_INTERVAL_MINUTES:-60}
+    volumes:
+      - owned-data:/data
+    restart: unless-stopped
+
+volumes:
+  owned-data:
