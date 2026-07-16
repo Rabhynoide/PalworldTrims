@@ -669,6 +669,81 @@
   text-align: right;
 }
 
+/* --- Checklist du plan suivi ------------------------------------------------------ */
+
+.checklist-panel {
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  background: var(--accent-dim);
+}
+
+.checklist-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.checklist-header h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.checklist-progress {
+  margin-left: auto;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+}
+
+.checklist-panel .steps-list,
+.checklist-panel .surgery-list {
+  background: var(--bg-panel);
+}
+
+.step-check {
+  accent-color: var(--accent);
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.step-row.done,
+.surgery-row.done {
+  opacity: 0.5;
+}
+
+.step-row.done > span,
+.step-row.done > strong {
+  text-decoration: line-through;
+}
+
+.follow-btn {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--bg-input);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.follow-btn:hover {
+  background: var(--accent-dim);
+}
+
 /* --- Table d'opération ---------------------------------------------------------- */
 
 .surgery-mark {
