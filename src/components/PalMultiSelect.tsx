@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import PalIcon from "./PalIcon";
 import { pals, searchPals, dexLabel } from "../lib/data";
 
 interface Props {
@@ -33,6 +34,7 @@ export default function PalMultiSelect({ values, onChange, placeholder }: Props)
         <div className="chips">
           {values.map((v) => (
             <span key={pals[v].id} className="chip">
+              <PalIcon pal={v} size={18} />
               {pals[v].fr}
               {pals[v].variant ? " ◆" : ""}
               <button
@@ -95,6 +97,7 @@ export default function PalMultiSelect({ values, onChange, placeholder }: Props)
                 }}
                 onMouseEnter={() => setHighlight(k)}
               >
+                <PalIcon pal={idx} />
                 <span className="pal-dex">{dexLabel(idx)}</span>
                 {pals[idx].fr}
               </li>

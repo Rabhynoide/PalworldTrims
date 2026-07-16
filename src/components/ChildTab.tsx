@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PalSelect from "./PalSelect";
+import PalIcon from "./PalIcon";
 import { pals, dexLabel } from "../lib/data";
 import { resultsFor } from "../lib/breeding";
 
@@ -45,6 +46,7 @@ export default function ChildTab() {
                   </p>
                 )}
                 <div className="child-name">
+                  <PalIcon pal={o.child} size={44} />
                   <span className="pal-dex">{dexLabel(o.child)}</span>
                   <strong>{child.fr}</strong>
                 </div>

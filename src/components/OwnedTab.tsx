@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import PalIcon from "./PalIcon";
 import PassiveChips from "./PassiveChipList";
 import { pals, passiveById, normalize, dexLabel } from "../lib/data";
 import { useOwnedData, type OwnedPalRow } from "../lib/useOwnedData";
@@ -287,6 +288,7 @@ export default function OwnedTab() {
               return (
                 <tr key={k}>
                   <td>
+                    <PalIcon pal={r.palIndex} size={26} />{" "}
                     <span className="pal-dex">{dexLabel(r.palIndex)}</span>{" "}
                     <strong>{p.fr}</strong>
                     {r.nickname !== null && (

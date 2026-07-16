@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import PalIcon from "./PalIcon";
 import { pals, searchPals, dexLabel } from "../lib/data";
 
 interface Props {
@@ -91,6 +92,7 @@ export default function PalSelect({ value, onChange, placeholder }: Props) {
               }}
               onMouseEnter={() => setHighlight(k)}
             >
+              <PalIcon pal={idx} />
               <span className="pal-dex">{dexLabel(idx)}</span>
               {pals[idx].fr}
             </li>

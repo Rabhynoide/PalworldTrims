@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import PalIcon from "./PalIcon";
 import PassiveChips from "./PassiveChipList";
 import { pals } from "../lib/data";
 import type {
@@ -70,7 +71,7 @@ function Node({ node, desired }: { node: TreeNode; desired: string[] }) {
   if (node.kind === "reuse") {
     return (
       <div className="tcard tcard-reuse">
-        ♻ {pals[node.pal].fr}
+        ♻ <PalIcon pal={node.pal} size={20} /> {pals[node.pal].fr}
         <span className="tcard-sub">déjà élevé (étape {node.stepIndex + 1})</span>
       </div>
     );
@@ -81,6 +82,7 @@ function Node({ node, desired }: { node: TreeNode; desired: string[] }) {
     return (
       <div className="tcard tcard-source">
         <div className="tcard-title">
+          <PalIcon pal={node.pal} size={30} />
           {pals[node.pal].fr}
           {inst.gender ? ` ${genderSymbol[inst.gender]}` : ""}
         </div>
@@ -102,6 +104,7 @@ function Node({ node, desired }: { node: TreeNode; desired: string[] }) {
       <div className="tcard tcard-step">
         <div className="tcard-title">
           <span className="step-no">{node.index + 1}</span>
+          <PalIcon pal={s.child} size={30} />
           {pals[s.child].fr}
           {s.childGender ? ` ${genderSymbol[s.childGender]}` : ""}
         </div>

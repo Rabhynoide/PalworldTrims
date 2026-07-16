@@ -4,6 +4,7 @@ import PalMultiSelect from "./PalMultiSelect";
 import PassivePicker from "./PassivePicker";
 import PassivePresets from "./PassivePresets";
 import PlanTree from "./PlanTree";
+import PalIcon from "./PalIcon";
 import PassiveChips from "./PassiveChipList";
 import { pals, passives } from "../lib/data";
 import { useOwnedData } from "../lib/useOwnedData";
@@ -67,19 +68,19 @@ function StepLine({
         />
       )}
       <span>
-        {pals[s.p1].fr}
+        <PalIcon pal={s.p1} size={20} /> {pals[s.p1].fr}
         {s.p1Gender ? ` ${genderSymbol[s.p1Gender]}` : ""}
         <PassiveChips ids={maskIdsOf(desired, s.p1Mask)} />
       </span>
       <span className="cross">×</span>
       <span>
-        {pals[s.p2].fr}
+        <PalIcon pal={s.p2} size={20} /> {pals[s.p2].fr}
         {s.p2Gender ? ` ${genderSymbol[s.p2Gender]}` : ""}
         <PassiveChips ids={maskIdsOf(desired, s.p2Mask)} />
       </span>
       <span className="arrow">→</span>
       <strong>
-        {pals[s.child].fr}
+        <PalIcon pal={s.child} size={20} /> {pals[s.child].fr}
         {s.childGender ? ` ${genderSymbol[s.childGender]}` : ""}
       </strong>
       <PassiveChips ids={maskIdsOf(desired, s.childMask)} />
@@ -312,6 +313,7 @@ export default function PathTab() {
                     return (
                       <span key={k} className="source-item">
                         {k > 0 && " · "}
+                        <PalIcon pal={s.pal} size={18} />{" "}
                         <strong>{pals[s.pal].fr}</strong>
                         {inst?.gender ? ` ${genderSymbol[inst.gender]}` : ""}
                         {inst?.level ? ` niv.${inst.level}` : ""}
@@ -594,6 +596,7 @@ export default function PathTab() {
                     return (
                       <span key={k} className="source-item">
                         {k > 0 && " · "}
+                        <PalIcon pal={s.pal} size={18} />{" "}
                         <strong>{pals[s.pal].fr}</strong>
                         {inst?.gender ? ` ${genderSymbol[inst.gender]}` : ""}
                         {inst?.level ? ` niv.${inst.level}` : ""}

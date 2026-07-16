@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import PalSelect from "./PalSelect";
+import PalIcon from "./PalIcon";
 import { pals, normalize } from "../lib/data";
 import { combosFor } from "../lib/breeding";
 
@@ -64,12 +65,12 @@ export default function ParentsTab() {
             {filtered.map((c, k) => (
               <li key={k} className="combo-row">
                 <span>
-                  {pals[c.p1].fr}
+                  <PalIcon pal={c.p1} size={20} /> {pals[c.p1].fr}
                   {c.condition ? ` ${genderSymbol[c.condition.g1]}` : ""}
                 </span>
                 <span className="cross">×</span>
                 <span>
-                  {pals[c.p2].fr}
+                  <PalIcon pal={c.p2} size={20} /> {pals[c.p2].fr}
                   {c.condition ? ` ${genderSymbol[c.condition.g2]}` : ""}
                 </span>
               </li>
