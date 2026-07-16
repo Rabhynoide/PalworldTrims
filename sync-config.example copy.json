@@ -1,8 +1,0 @@
-{
-  "host": "adresse.du.serveur",
-  "port": 22,
-  "username": "utilisateur",
-  "password": "mot-de-passe (ou utiliser privateKeyPath)",
-  "privateKeyPath": null,
-  "remoteSavePath": "/chemin/vers/Pal/Saved/SaveGames/0/<id-du-monde>/Level.sav"
-}

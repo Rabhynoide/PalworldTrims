@@ -7,7 +7,7 @@ interface Props {
   placeholder?: string;
 }
 
-export function palLabel(index: number): string {
+function palLabel(index: number): string {
   const p = pals[index];
   return `${p.fr}${p.variant ? " ◆" : ""}`;
 }
