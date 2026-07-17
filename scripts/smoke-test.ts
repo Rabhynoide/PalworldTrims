@@ -29,10 +29,21 @@ check(
 const jet = combosFor(idx("Jetragon"));
 check("Jetragon : 1 seul combo (lui-même)", jet.length === 1);
 
-// findPath : cible déjà possédée
+// Cible déjà possédée → plan de duplication (l'exemplaire sert de parent)
 const owned = [idx("Lamball"), idx("Cattiva"), idx("Chikipi")];
-const p0 = findPath(owned, idx("Lamball"));
-check("Cible possédée → 0 étape", p0 !== null && p0.steps.length === 0);
+const pDup = findPassivePlan(
+  owned.map((pal) => ({ pal, passives: [] })),
+  idx("Lamball"),
+  []
+);
+check(
+  "Cible possédée → plan de duplication",
+  pDup !== null &&
+    pDup.alreadyOwned &&
+    pDup.steps.length >= 1 &&
+    pDup.steps[pDup.steps.length - 1].child === idx("Lamball"),
+  pDup ? `${pDup.steps.length} étape(s)` : "null"
+);
 
 // findPath : chemin vers Anubis depuis des pals de départ
 const pAnubis = findPath(owned, idx("Anubis"));
@@ -144,6 +155,38 @@ check(
             `${s.childGender ? "(" + s.childGender + ")" : ""}`
         )
         .join(" ; ") + ` ~${Math.ceil(planNoct.totalEggs)} œufs`
+    : "null"
+);
+
+// Duplication : un légendaire seul ne peut pas être reproduit
+const soloJet = findPassivePlan(
+  [{ pal: idx("Jetragon"), passives: [], gender: "MALE" as const }],
+  idx("Jetragon"),
+  []
+);
+check(
+  "Légendaire seul → possédé mais non duplicable",
+  soloJet !== null && soloJet.alreadyOwned && soloJet.steps.length === 0
+);
+
+// Duplication avec passif : l'exemplaire possédé sert de porteur
+const dupOwned = [
+  { pal: idx("Daedream"), passives: ["Legend"], gender: "MALE" as const },
+  { pal: idx("Lamball"), passives: [], gender: "MALE" as const },
+  { pal: idx("Cattiva"), passives: [], gender: "FEMALE" as const },
+];
+const pDupLegend = findPassivePlan(dupOwned, idx("Daedream"), ["Legend"]);
+check(
+  "Duplication d'un pal possédé avec son passif",
+  pDupLegend !== null &&
+    pDupLegend.alreadyOwned &&
+    pDupLegend.steps.length >= 2 &&
+    pDupLegend.steps[pDupLegend.steps.length - 1].child === idx("Daedream") &&
+    pDupLegend.steps[pDupLegend.steps.length - 1].childMask === 1,
+  pDupLegend
+    ? pDupLegend.steps
+        .map((s) => `${pals[s.p1].en} x ${pals[s.p2].en} -> ${pals[s.child].en}`)
+        .join(" ; ") + ` (~${Math.ceil(pDupLegend.totalEggs)} œufs)`
     : "null"
 );
 

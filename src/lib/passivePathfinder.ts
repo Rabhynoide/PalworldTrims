@@ -72,6 +72,9 @@ export interface PlanResult {
   /** Passifs souhaités à ajouter via la table d'opération en fin de plan. */
   surgeries: string[];
   warnings: string[];
+  /** La cible est déjà possédée : steps est alors un plan de duplication
+   *  (vide si la duplication est impossible). */
+  alreadyOwned: boolean;
 }
 
 const POPCOUNT = new Uint8Array(1 << 16);
@@ -190,6 +193,15 @@ export function findPassivePlan(
   let dirtyNext = new Uint8Array(palCount);
   let changed = true;
 
+  // Coûts « élevé » de l'espèce cible, jamais court-circuités par la
+  // possession (cost[] tombe à 0 dès qu'on possède l'état) : nécessaires
+  // pour proposer un plan de duplication d'un pal déjà possédé.
+  const bredCost = new Float64Array(M * 3).fill(INF);
+  const bredP1 = new Int32Array(M * 3).fill(-1);
+  const bredP2 = new Int32Array(M * 3).fill(-1);
+  const bredCondIdx = new Int32Array(M * 3).fill(-1);
+  const bredProb = new Float64Array(M * 3).fill(1);
+
   // Relaxe l'enfant (toutes variantes de genre) pour une paire de parents
   // donnée avec leurs créneaux de genre fixés.
   const relaxChild = (
@@ -219,6 +231,16 @@ export function findPassivePlan(
           stepProb[idT] = prob;
           changed = true;
           dirtyNext[child] = 1;
+        }
+        if (child === target) {
+          const idB = t * 3 + slot;
+          if (cand < bredCost[idB] - 1e-9) {
+            bredCost[idB] = cand;
+            bredP1[idB] = p1Idx;
+            bredP2[idB] = p2Idx;
+            bredCondIdx[idB] = condIdx;
+            bredProb[idB] = prob;
+          }
         }
         if (t === 0) break;
       }
@@ -318,7 +340,43 @@ export function findPassivePlan(
     }
   }
   if (targetIdx === -1) return null;
-  const targetMask = Math.floor(targetIdx / 3) % M;
+
+  // Cible déjà possédée : on propose un plan de duplication — reproduire un
+  // exemplaire équivalent, en utilisant les pals possédés (dont l'original)
+  // comme reproducteurs. Sélection sur les coûts « élevé » uniquement.
+  const alreadyOwned = sourceOf[targetIdx] !== -1;
+  let dupIdx = -1;
+  if (alreadyOwned) {
+    let dupBest = INF;
+    let dupSurgeries = Infinity;
+    for (let u = 0; u < M; u++) {
+      if ((u & requiredMask) !== requiredMask) continue;
+      const idx = u * 3 + ANY;
+      const c = bredCost[idx];
+      if (c === INF) continue;
+      const numSurgeries = POPCOUNT[FULL & ~u];
+      if (c < dupBest - 1e-9 || (c < dupBest + 1e-9 && numSurgeries < dupSurgeries)) {
+        dupBest = c;
+        dupSurgeries = numSurgeries;
+        dupIdx = idx;
+      }
+    }
+    if (dupIdx === -1) {
+      // Possédé mais impossible à reproduire (ex. légendaire unique).
+      return {
+        steps: [],
+        sources: [],
+        totalEggs: 0,
+        surgeries: [],
+        warnings: [],
+        alreadyOwned: true,
+      };
+    }
+  }
+
+  const targetMask = alreadyOwned
+    ? Math.floor(dupIdx / 3)
+    : Math.floor(targetIdx / 3) % M;
   const surgeries = desired.filter((_, k) => (FULL & ~targetMask) & (1 << k));
 
   // --- Reconstruction post-ordre --------------------------------------------
@@ -390,8 +448,42 @@ export function findPassivePlan(
     producedSteps.get(pal)!.push({ mask, slot, step: stepIndex });
     return { type: "step", index: stepIndex };
   };
-  visit(targetIdx);
+  if (!alreadyOwned) {
+    visit(targetIdx);
+  } else {
+    // Étape finale de duplication : parents reconstruits normalement (dont
+    // l'exemplaire possédé), enfant sans contrainte de genre.
+    const p1 = bredP1[dupIdx];
+    const p2 = bredP2[dupIdx];
+    const p1Ref = visit(p1);
+    const p2Ref = visit(p2);
+    const condIdx = bredCondIdx[dupIdx];
+    const p1Slot = p1 % 3;
+    const p2Slot = p2 % 3;
+    const p1State = (p1 - p1Slot) / 3;
+    const p2State = (p2 - p2Slot) / 3;
+    steps.push({
+      p1: Math.floor(p1State / M),
+      p1Mask: p1State % M,
+      p1Gender: SLOT_GENDER[p1Slot],
+      p1Ref,
+      p2: Math.floor(p2State / M),
+      p2Mask: p2State % M,
+      p2Gender: SLOT_GENDER[p2Slot],
+      p2Ref,
+      child: target,
+      childMask: targetMask,
+      childGender: null,
+      condition:
+        condIdx !== -1
+          ? { g1: gendered[condIdx].g1, g2: gendered[condIdx].g2 }
+          : undefined,
+      prob: bredProb[dupIdx],
+      eggs: 1 / bredProb[dupIdx],
+      genderFactor: 1,
+    });
+  }
 
   const totalEggs = steps.reduce((sum, s) => sum + s.eggs, 0);
-  return { steps, sources, totalEggs, surgeries, warnings: [] };
+  return { steps, sources, totalEggs, surgeries, warnings: [], alreadyOwned };
 }

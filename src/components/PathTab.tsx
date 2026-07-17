@@ -523,6 +523,13 @@ export default function PathTab() {
           ! 🎉
           {plan.surgeries.length > 0 &&
             " Il ne reste que la table d'opération :"}
+          {plan.alreadyOwned && plan.surgeries.length === 0 && (
+            <>
+              {" "}
+              En revanche, impossible de le dupliquer par reproduction :
+              aucune paire accessible ne produit cette espèce.
+            </>
+          )}
         </p>
       )}
 
@@ -533,6 +540,13 @@ export default function PathTab() {
             📌 Suivre ce plan
           </button>
         </>
+      )}
+
+      {plan && plan.steps.length > 0 && plan.alreadyOwned && (
+        <p className="notice success">
+          Tu possèdes déjà ce pal — voici comment le <strong>dupliquer</strong>{" "}
+          en utilisant ton exemplaire comme reproducteur :
+        </p>
       )}
 
       {plan && plan.steps.length > 0 && (
